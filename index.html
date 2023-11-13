@@ -6,8 +6,8 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>Bookself App</title>
   </head>
-  <body>
-    <header class="p-4 bg-primary">
+  <body class="overflow-hidden">
+    <header class="p-4 bg-primary sticky w-full">
       <nav class="flex justify-between">
         <h1
           class="text-4xl text-white font-bold italic uppercase text-shadow-xl"
@@ -22,9 +22,11 @@
       </nav>
     </header>
 
-    <main class="p-4">
-      <section>
-        <form class="w-1/2 py-2 px-3 border rounded shadow bg-gray">
+    <main class="p-4 w-full h-screen">
+      <section class="container w-full flex justify-between gap-4">
+        <form
+          class="form w-1/2 py-2 px-3 h-[480px] border rounded shadow bg-gray"
+        >
           <div class="flex justify-between">
             <h2
               class="text-3xl text-secondary font-bold capitalize text-shadow-md"
@@ -32,7 +34,7 @@
               buku baru
             </h2>
             <button
-              class="bg-primary text-semibold w-24 p-2 my-2 shadow rounded transition-all duration-500 hover:cursor-pointer hover:bg-secondary hover:text-white hover:shadow-xl"
+              class="btn-delete bg-primary text-semibold w-24 p-2 my-2 shadow rounded transition-all duration-500 hover:cursor-pointer hover:bg-secondary hover:text-white hover:shadow-xl"
             >
               Delete All
             </button>
@@ -44,6 +46,7 @@
             <input
               id="book"
               type="text"
+              placeholder="ex: harry pooah..."
               placeholder="ex: harry pooah..."
               class="p-2 rounded shadow-lg border"
             />
@@ -87,7 +90,37 @@
             value="Add Book"
             class="bg-primary text-semibold w-full p-2 my-2 shadow rounded transition-all duration-500 hover:cursor-pointer hover:bg-secondary hover:text-white hover:shadow-xl"
           />
+          <div class="flex justify-center align-center w-full">
+            <a
+              href="https://github.com/AlifiChiganjati/bookself-app"
+              target="_blank"
+              class="text-xl text-shadow absolute font-bold text-primary italic hover:cursor-pointer hover:underline hover:text-secondary hover:text-shadow-xl transition-all duration-500"
+              >My Code</a
+            >
+          </div>
         </form>
+        <div class="w-1/2 flex flex-col gap-4 box-border">
+          <div
+            class="todo px-2 h-[232px] pt-2 bg-gray rounded overflow-auto border shadow-lg"
+          >
+            <h3
+              class="text-3xl text-secondary font-bold capitalize text-shadow-md"
+            >
+              Buku Selesai Dibaca
+            </h3>
+            <ul class="bookIsCompleted p-2 flex flex-col gap-2"></ul>
+          </div>
+          <div
+            class="pt-2 px-2 h-[232px] bg-gray rounded overflow-auto border shadow-lg"
+          >
+            <h3
+              class="text-3xl text-secondary font-bold capitalize text-shadow-md"
+            >
+              Buku Belum Dibaca
+            </h3>
+            <ul class="bookUnCompleted p-2 flex flex-col gap-2"></ul>
+          </div>
+        </div>
       </section>
     </main>
     <script type="module" src="./src/js/main.js"></script>
