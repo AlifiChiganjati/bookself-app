@@ -70,9 +70,10 @@ const loadBook = () => {
     const liDetails = `<div><h4 class="text-2xl uppercase font-bold text-shadow-md text-secondary"> ${book.title}</h4>
         <p >Penulis: ${book.author}</p>
         <p>Tahun: ${book.year}</p></div> 
-        <div class="flex flex-col justify-end gap-2">
-          <button class="editBook bg-green-400 p-1 rounded hover:bg-green-500 transition-all duration-500 font-semibold capitalize hover:text-shadow-md hover:text-white">edit</button>
-          <button class="deleteBook bg-red-400 p-1 rounded hover:bg-red-500 transition-all duration-500 font-semibold capitalize hover:text-shadow-md hover:text-white">delete</button>
+        <div class="flex justify-end  items-center gap-4">
+          <button class="toggleCompleted  px-2 rounded  bg-blue-400 hover:bg-blue-500 transition-all duration-500 font-semibold capitalize hover:text-shadow-md hover:text-white">pindah rak</button>
+          <button class="editBook bg-green-400 px-2 rounded hover:bg-green-500 transition-all duration-500 font-semibold capitalize hover:text-shadow-md hover:text-white">edit</button>
+          <button class="deleteBook bg-red-400 px-2 rounded hover:bg-red-500 transition-all duration-500 font-semibold capitalize hover:text-shadow-md hover:text-white">delete</button>
         </div>`;
     Li.innerHTML = liDetails;
     if (book.isCompleted) {
@@ -80,6 +81,13 @@ const loadBook = () => {
     } else {
       bookUnCompleted.appendChild(Li);
     }
+
+    const toggleCompleted = Li.querySelector(".toggleCompleted");
+    toggleCompleted.addEventListener("click", () => {
+      book.isCompleted = !book.isCompleted;
+      saveBook();
+      loadBook();
+    });
 
     const deleteButton = Li.querySelector(".deleteBook");
     deleteButton.addEventListener("click", () => {
@@ -90,6 +98,28 @@ const loadBook = () => {
         bookLists = bookLists.filter((bookL) => bookL.id !== book.id);
         saveBook();
         loadBook();
+      }
+    });
+
+    const editButton = Li.querySelector(".editBook");
+    editButton.addEventListener("click", () => {
+      const editedBook = bookLists.find((b) => b.id === book.id);
+      if (editedBook) {
+        const updateTitle = prompt("Ganti judul buku: ", editedBook.title);
+        const updateAuthor = prompt("Ganti nama penulis: ", editedBook.author);
+        const updateYear = prompt("Ganti tahun rilis buku: ", editedBook.year);
+
+        if (
+          updateTitle !== null &&
+          updateAuthor !== null &&
+          updateYear !== null
+        ) {
+          editedBook.title = updateTitle.trim();
+          editedBook.author = updateAuthor.trim();
+          editedBook.year = updateYear.trim();
+          saveBook();
+          loadBook();
+        }
       }
     });
   });
