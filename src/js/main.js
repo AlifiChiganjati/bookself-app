@@ -1,6 +1,7 @@
 import "../css/style.css";
+
 const form = document.querySelector(".form");
-const bookLists = localStorage.getItem("bookList")
+let bookLists = localStorage.getItem("bookList")
   ? JSON.parse(localStorage.getItem("bookList"))
   : [];
 
@@ -10,6 +11,7 @@ form.addEventListener("submit", (e) => {
   const author = document.getElementById("author");
   const year = document.getElementById("year");
   const bookCompleted = document.getElementById("isCompleted");
+
   if (!book.value.trim() || !author.value.trim() || !year.value.trim()) {
     alert("wajib isi buku yang ada");
     return;
@@ -35,7 +37,7 @@ btnDelete.addEventListener("click", () => {
     );
     if (isConfirmed) {
       localStorage.removeItem("bookList");
-      bookLists.length = 0;
+      bookLists = [];
       loadBook();
     }
   } else {
@@ -64,12 +66,13 @@ const loadBook = () => {
       "p-2",
       "shadow-xl",
     );
+
     const liDetails = `<div><h4 class="text-2xl uppercase font-bold text-shadow-md text-secondary"> ${book.title}</h4>
         <p >Penulis: ${book.author}</p>
         <p>Tahun: ${book.year}</p></div> 
-        <div class="flex flex-col gap-2">
-          <button>edit</button>
-          <button>delete</button>
+        <div class="flex flex-col justify-end gap-2">
+          <button class="editBook bg-green-400 p-1 rounded hover:bg-green-500 transition-all duration-500 font-semibold capitalize hover:text-shadow-md hover:text-white">edit</button>
+          <button class="deleteBook bg-red-400 p-1 rounded hover:bg-red-500 transition-all duration-500 font-semibold capitalize hover:text-shadow-md hover:text-white">delete</button>
         </div>`;
     Li.innerHTML = liDetails;
     if (book.isCompleted) {
@@ -77,6 +80,18 @@ const loadBook = () => {
     } else {
       bookUnCompleted.appendChild(Li);
     }
+
+    const deleteButton = Li.querySelector(".deleteBook");
+    deleteButton.addEventListener("click", () => {
+      const isConfirmed = confirm(
+        "Apakah Anda yakin ingin menghapus buku ini?",
+      );
+      if (isConfirmed) {
+        bookLists = bookLists.filter((bookL) => bookL.id !== book.id);
+        saveBook();
+        loadBook();
+      }
+    });
   });
 };
 
